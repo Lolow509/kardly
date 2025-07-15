@@ -1,0 +1,115 @@
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kardly - Cartes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"> </script>
+  
+  <style>
+    .card-container {
+      perspective: 1000px;
+    }
+
+    .card {
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+      position: relative;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      backface-visibility: hidden;
+      position: absolute;
+      inset: 0;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+  <!-- HEADER -->
+  <header class="bg-white shadow-md p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-gray-800">👛 Kardly</h1>
+    <button class="text-sm text-blue-600 hover:underline">Déconnexion</button>
+  </header>
+
+  <!-- CONTAINER -->
+  <main id="main_container" class="p-4 space-y-6 max-w-xl mx-auto">
+    <div id="cardContainer" class="grid gap-6 md:grid-cols-2"></div>
+  
+  
+  
+  <!-- FAB Button -->
+  <button onclick="addCardModal()"
+    class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-blue-700 transition">
+    <span class="text-3xl">+</span>
+  </button>
+</main>
+  
+  <!-- Modale ajout carte (structure simple) -->
+  <div id="add_card" class="hidden p-4 space-y-6 max-w-xl mx-auto">
+  <div  class=" card w-full bg-white rounded-xl shadow-lg mx-auto">
+    <div class="bg-white p-6 rounded-lg w-full">
+      <h2 class="text-lg font-semibold mb-4">Ajouter une carte</h2>
+      <form id="addCardForm" class="space-y-4">
+        <input type="text" name="nom" placeholder="Nom de la carte" class="w-full p-2 border rounded">
+        
+        <select class="w-full p-3 border rounded-md bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-500" name="typeCard">
+  <option value="   https://cdn-icons-png.flaticon.com/512/11264/11264814.png " class="text-sm hover:bg-blue-50">Carte de fidélité</option>
+  <option value="https://cdn-icons-png.flaticon.com/512/17142/17142307.png" class="text-sm hover:bg-blue-50">Titre de transport</option>
+  <option value="https://cdn-icons-png.flaticon.com/512/7763/7763861.png" class="text-sm hover:bg-blue-50">Carte d’embarquement</option>
+<option value="https://cdn-icons-png.flaticon.com/512/4634/4634232.png" class="text-sm hover:bg-blue-50">carte d'accès</option>
+<option value="https://cdn-icons-png.flaticon.com/512/432/432312.png" class="text-sm hover:bg-blue-50">Ticket évènement </option>
+</select>
+        
+        
+        <select name="typeCode" id="typeCode" class="w-full p-3 border rounded-md bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-500">
+  <option value="alphaNum" class="text-sm hover:bg-blue-50">Alphanumérique</option>
+  <option value="BARCODE" class="text-sm hover:bg-blue-50">Code Barre</option>
+  <option value="QR" class="text-sm hover:bg-blue-50">Qr Code</option>
+</select>
+        
+           <div onclick="openScanner()" class="bg-gray-600 text-white px-4 py-2 rounded text-center" > 📷 Scan</div>
+        
+        <textarea name="ids" id="liste_value" placeholder="Identifiants (séparés par des virgules)" class="w-full p-2 border rounded"></textarea>
+       
+       
+         
+        <div class="flex justify-end space-x-2">
+          <button type="button" onclick="closeModal()" class="text-sm text-gray-500 hover:underline">Annuler</button>
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Ajouter</button>
+        </div>
+      </form>
+      
+      
+    </div>
+  </div>
+</div>
+  
+  
+  <!-- Scanner Modal -->
+<div id="scannerModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+  <div class="bg-white p-4 rounded-lg w-[90%] max-w-sm text-center">
+    <h3 class="text-lg font-semibold mb-2">Scanner QR / Code-barres</h3>
+    <div id="reader" class="mx-auto w-full"></div>
+    <button onclick="closeScanner()" class="mt-4 text-sm text-gray-500 underline">Fermer</button>
+  </div>
+</div>
+
+  
+  
+ 
+</body>
+
+  <script src="cards" type="text/javascript"> </script>
+  <script src="qrcode" type="text/javascript"> </script>
+  
+</html>
