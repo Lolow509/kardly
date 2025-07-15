@@ -10,8 +10,8 @@
   <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
     <h2 class="text-2xl font-bold mb-6 text-center" onclick="dash()">Connexion à Kardly</h2>
     <form id="loginForm" class="space-y-4">
-      <input type="email" placeholder="Email" class="w-full p-3 border rounded" required>
-      <input type="password" placeholder="Mot de passe" class="w-full p-3 border rounded" required>
+      <input type="email" name="email" placeholder="Email" class="w-full p-3 border rounded" required>
+      <input type="password" name="mdp" placeholder="Mot de passe" class="w-full p-3 border rounded" required>
       <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition">
         Se connecter
       </button>
@@ -23,8 +23,63 @@
   </div>
 </body>
   <script>
+    // Regex basique pour validation email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const requestOptionsGet = {
+                                  method: "GET",
+                                  redirect: "follow"
+                                };
+
+    const url_api = "https://script.google.com/macros/s/AKfycbyHmaTcBCa-6ptEQt9WaYj2_umPPBk10DYRoe-95BUAz-NkEodZy2PIZ6u9kSM6Lj8n7w/exec"
+
+    
     function dash(){
       window.location = "./dashboard.html"
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = new FormData(e.target);
+      var email = data.get('email');
+      var mdp = data.get('mdp');
+      mdp = window.btoa(mdp)
+
+      if ( emailRegex.test(email) ) {
+        call_login(email, mdp)
+      }
+      
+      
+    })
+
+
+    function call_login(email, mdp){
+       data = JSON.stringify({
+                                email,
+                                mdp,
+                                action : "login_user"
+                              })
+
+
+  data_encode = encodeURIComponent(data)
+
+
+  getUrl = `${url_api}?info=${data_encode}`
+
+  fetch(getUrl, requestOptionsGet)
+  .then((response) => response.json())
+  .then((get_data) => {
+    console.log(get_data)
+    
+    if(get_data.success == true){
+    
+        cartes = JSON.parse(get_data.cartes)
+        info = get_data
+      
+     
+    }
+  
+})
+      
     }
   </script>
 </html>
