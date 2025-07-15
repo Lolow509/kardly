@@ -1,3 +1,20 @@
+
+
+addEventListener("DOMContentLoaded", (event) => {
+      const infos = localStorage.getItem("infos");
+      const cartes = JSON.parse(infos.cartes);
+
+      // Ajout des cartes à l'interface
+      const container = document.getElementById('cardContainer');
+      cartes.forEach((carte, i) => {
+        container.appendChild(createCard(carte, i));
+      });
+})
+
+
+
+
+
 function toggleFlip(card) {
       card.classList.toggle('flipped');
     }
@@ -15,29 +32,6 @@ function toggleFlip(card) {
 
 
 
-const cartes = [
-  {
-    "nom": "Air France",
-    "type": "billet avion",
-    "logo": "15-sp8U5S3WEfzfRpvRGeRZfXEEjQg6eI",
-    "typeCode" : "BARCODE",
-    "ids": ["123456789", "af_234324", "843234234"]
-  },
-  {
-    "nom": "Pathé Cinéma",
-    "type": "cinéma",
-    "logo": "14eDve2IjG-o412W8bM-I8S-3C1Po-Kq3",
-    "typeCode" : "QR",
-    "ids": ["cine_8923"]
-  },
-  {
-    "nom": "Pathé Cinéma",
-    "type": "cinéma",
-    "logo": "14eDve2IjG-o412W8bM-I8S-3C1Po-Kq3",
-    "typeCode" : "",
-    "ids": ["cine_99898923"]
-  }
-];
 
 
 
@@ -127,10 +121,6 @@ function createCard(carte, index) {
   return card;
 }
 
-// Ajout des cartes à l'interface
-const container = document.getElementById('cardContainer');
-cartes.forEach((carte, i) => {
-  container.appendChild(createCard(carte, i));
-});
+
 
   
