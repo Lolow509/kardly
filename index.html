@@ -72,8 +72,13 @@
     
     if(get_data.success == true){
     
-        cartes = JSON.parse(get_data.cartes)
-        info = get_data
+        //cartes = JSON.parse(get_data.message[0].cartes)
+        infos = get_data.message[0]
+
+      localStorage.setItem("infos", JSON.stringify(infos) );
+      //localStorage.getItem("infos");
+
+      window.location = "./dashboard.html"
       
      
     }
