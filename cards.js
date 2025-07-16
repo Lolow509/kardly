@@ -54,6 +54,11 @@ function toggleFlip(card) {
 
 
 
+      function closeModalWait() {
+     document.getElementById('modalWait').classList.remove('hidden'); document.getElementById('add_card').classList.add('hidden');
+    }
+
+
 
 
 
@@ -147,6 +152,7 @@ function createCard(carte, index) {
 
 
 function add_carte(nom, typeCode, typeCard, ids){
+  document.getElementById('modalWait').classList.remove('hidden')
       uid = infos.id
 
     new_carte = { nom, ids, typeCode, "type" : typeCard}
@@ -156,10 +162,10 @@ function add_carte(nom, typeCode, typeCard, ids){
 
       cartes.push(new_carte)
 
-      carte_string = JSON.strigify(cartes)
+      carte_string = JSON.stringify(cartes)
          
 
-      data = JSON.strigify({
+      data = JSON.stringify({
             "action" : "update_cartes",
             "id" : uid,
             "cartes" : carte_string
@@ -175,6 +181,23 @@ function add_carte(nom, typeCode, typeCard, ids){
   .then((response) => response.json())
   .then((get_data) => {
     console.log(get_data)
+
+    if(get_data.success == true){
+      //ajouter à la dashboard
+      index = cartes.length - 1
+      new_div = createCard(cartes[index], index)
+      document.querySelector('#cardContainer').appendChild(new_div)
+
+      //ajouter à localstorage
+      infos.cartes = carte_string
+      localStorage.setItem("infos", JSON.stringify(infos) );
+
+      document.getElementById('modalWait').classList.add('hidden')
+      closeModal();
+      
+    }
+
+    
   })
             
 }
