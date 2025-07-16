@@ -37,6 +37,8 @@ function startScan(){
 
 // Submission handler (à lier avec API plus tard)
     document.getElementById('addCardForm').addEventListener('submit', function (e) {
+      document.getElementById('modalWait').classList.remove('hidden')
+      
       e.preventDefault();
       let data = new FormData(e.target);
       let nom = data.get('nom');
@@ -45,8 +47,6 @@ function startScan(){
       let ids = data.get('ids').split(',').map(s => s.trim()).filter(s => s !== "");
 
       console.log({ nom, typeCode, typeCard, ids }); // à remplacer par l'appel à Google Apps Script
-
-      closeModal();
 
       add_carte(nom, typeCode, typeCard, ids)
       // Ajout visuel dynamique à venir
