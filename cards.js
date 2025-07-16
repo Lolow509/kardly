@@ -1,7 +1,8 @@
 
 
 addEventListener("DOMContentLoaded", (event) => {
-      const infos = localStorage.getItem("infos");
+      const infos = JSON.parse(localStorage.getItem("infos"))
+      
       const cartes = JSON.parse(infos.cartes);
 
       // Ajout des cartes à l'interface
