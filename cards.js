@@ -6,11 +6,15 @@ const requestOptionsGet = {
 
 const url_api = "https://script.google.com/macros/s/AKfycbyHmaTcBCa-6ptEQt9WaYj2_umPPBk10DYRoe-95BUAz-NkEodZy2PIZ6u9kSM6Lj8n7w/exec"
 
+let infos
+let cartes
 
 addEventListener("DOMContentLoaded", (event) => {
-      var infos = JSON.parse(localStorage.getItem("infos"))
+      infos = JSON.parse(localStorage.getItem("infos"))
       
-      var cartes = JSON.parse(infos.cartes);
+      cartes = JSON.parse(infos.cartes);
+
+  
 
 
       if(infos == null){
@@ -145,13 +149,15 @@ function createCard(carte, index) {
 function add_carte(nom, typeCode, typeCard, ids){
       uid = infos.id
 
+    new_carte = { nom, ids, typeCode, "type" : typeCard}
+
 
       //id, cartes, action = update_cartes
 
-      cartes.push(ids)
+      cartes.push(new_carte)
 
       carte_string = JSON.strigify(cartes)
-
+         
 
       data = JSON.strigify({
             "action" : "update_cartes",
