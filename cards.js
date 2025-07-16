@@ -5,15 +5,17 @@ let cartes
 
 addEventListener("DOMContentLoaded", (event) => {
       infos = JSON.parse(localStorage.getItem("infos"))
+
+       if(infos == null){
+            window.location = "./"
+      } 
       
       cartes = JSON.parse(infos.cartes);
 
   
 
 
-      if(infos == null){
-            window.location = "./"
-      } 
+     
 
       // Ajout des cartes à l'interface
       const container = document.getElementById('cardContainer');
@@ -23,7 +25,7 @@ addEventListener("DOMContentLoaded", (event) => {
 })
 
 
-function deconnected(){
+function logout(){
       localStorage.removeItem("infos");
       window.location = "./"
 }
@@ -36,8 +38,27 @@ function toggleFlip(card) {
     }
 
     function addCardModal() {
+      //visible
       document.getElementById('add_card').classList.remove('hidden');
+
+      //invisible
+      document.getElementById('parametre').classList.add('hidden');
       document.getElementById('main_container').classList.add('hidden');
+    }
+
+
+function openSettings() {
+      //visible
+      document.getElementById('parametre').classList.remove('hidden');
+
+      //invisible
+      document.getElementById('add_card').classList.add('hidden');
+      document.getElementById('main_container').classList.add('hidden');
+      document.getElementById('nav_home').classList.add('hidden');
+
+      document.getElementById('modalWait').classList.remove('hidden');
+
+      get_parametre()
     }
 
 
@@ -51,6 +72,106 @@ function toggleFlip(card) {
       function closeModalWait() {
      document.getElementById('modalWait').classList.remove('hidden'); document.getElementById('add_card').classList.add('hidden');
     }
+
+
+function get_parametre(){
+      document.querySelector('#user_id').value = info.id
+      document.querySelector('#user_nom').value = info.nom
+      document.querySelector('#user_pseudo').value = info.pseudo
+      document.querySelector('#user_numero').value = info.numero
+      document.querySelector('#user_sexe').value = info.sexe
+      document.querySelector('#user_age').value = info.age
+      document.querySelector('#user_email').value = info.email
+
+      document.getElementById('modalWait').classList.add('hidden');
+      
+}
+
+document.getElementById('settingsForm').addEventListener('submit', function (e) {
+      document.getElementById('modalWait').classList.remove('hidden')
+      
+      e.preventDefault();
+
+      let data = new FormData(e.target)
+
+      let user_pseudo = data.get('user_pseudo')
+      let user_numero = data.get('user_numero')
+      let user_sexe = data.get('user_sexe')
+      let user_age = data.get('user_age')
+
+
+      data_update = [user_pseudo, user_numero, user_sexe, user_age ]
+
+      isValid = data_update.every(value => value !== undefined && value !== null && value.toString().trim() !== "");
+
+            if (!isValid) {
+              showToast("Veuillez remplir tous les champs obligatoires.", "warning");
+              
+            } else {
+                  update_info(user_pseudo, user_numero, user_sexe, user_age)
+            }
+            
+      
+      
+})
+
+
+
+function update_info(user_pseudo, user_numero, user_sexe, user_age){
+      uid = infos.id
+         
+
+      data = JSON.stringify({
+            "action" : "update_user",
+            "id" : uid,
+            "pseudo" : user_pseudo,
+            "numero": user_numero,
+            "sexe": user_sexe,
+            "age": user_age,
+      })
+
+
+      
+      data_encode = encodeURIComponent(data)
+
+
+  getUrl = `${url_api}?info=${data_encode}`
+
+  fetch(getUrl, requestOptionsGet)
+  .then((response) => response.json())
+  .then((get_data) => {
+    console.log(get_data)
+
+    if(get_data.success == true){
+      infos.pseudo = user_pseudo
+      infos.numero = user_numero
+      infos.sexe = user_sexe
+      infos.age = user_age
+
+      localStorage.setItem("infos", JSON.stringify(infos) );
+      document.getElementById('modalWait').classList.add('hidden')
+
+          document.getElementById('parametre').classList.add('hidden');
+          document.getElementById('main_container').classList.remove('hidden');
+          document.getElementById('nav_home').classList.remove('hidden');  
+
+          showToast("Paramètre mis a jour avec succès ", "success")
+
+
+          
+    } else {
+          showToast("Une erreur est survenue !", "error")
+    }
+
+  })
+
+      
+}
+
+
+
+
+
 
 
 
