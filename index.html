@@ -21,23 +21,37 @@
       <a href="register.html" class="text-gray-500 hover:underline">Créer un compte</a>
     </div>
   </div>
+
+
+  <!-- Toast container -->
+<div id="toast" class="fixed bottom-4 right-4 bg-white text-gray-800 px-4 py-3 rounded shadow-md border border-gray-200 hidden transition-opacity duration-300 z-50">
+  <span id="toastMessage"></span>
+</div>
+
+
+  <!-- Wait Modal -->
+<div id="modalWait" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-md p-6 flex flex-col items-center space-y-4">
+    <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+    </svg>
+    <p class="text-gray-700 font-medium">Veuillez patienter...</p>
+  </div>
+</div>
+
 </body>
+
+  <script src="services.js" type="text/javascript"> </script>
   <script>
     // Regex basique pour validation email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const requestOptionsGet = {
-                                  method: "GET",
-                                  redirect: "follow"
-                                };
-
-    const url_api = "https://script.google.com/macros/s/AKfycbyHmaTcBCa-6ptEQt9WaYj2_umPPBk10DYRoe-95BUAz-NkEodZy2PIZ6u9kSM6Lj8n7w/exec"
+     
 
     
-    function dash(){
-      window.location = "./dashboard.html"
-    }
 
     document.getElementById('loginForm').addEventListener('submit', function (e) {
+      document.getElementById('modalWait').classList.remove('hidden')
+      
       e.preventDefault();
       var data = new FormData(e.target);
       var email = data.get('email');
@@ -46,6 +60,8 @@
 
       if ( emailRegex.test(email) ) {
         call_login(email, mdp)
+      } else {
+        showToast("Votre adresse email n'est pas valide", "warning")
       }
       
       
@@ -68,9 +84,14 @@
   fetch(getUrl, requestOptionsGet)
   .then((response) => response.json())
   .then((get_data) => {
-    console.log(get_data)
+    //console.log(get_data)
     
     if(get_data.success == true){
+
+      if(get_data.message == []){
+        document.getElementById('modalWait').classList.add('hidden')
+        showToast("Vous n'avez pas pu vous authentifier", "error")
+      } else{
     
         //cartes = JSON.parse(get_data.message[0].cartes)
         infos = get_data.message[0]
@@ -78,10 +99,14 @@
       localStorage.setItem("infos", JSON.stringify(infos) );
       //localStorage.getItem("infos");
 
-      //window.location = "./dashboard.html"
+      window.location = "./dashboard.html"
       console.log(localStorage.getItem("infos") )
       
-     
+      }
+      
+    } else {
+      document.getElementById('modalWait').classList.add('hidden')
+      showToast("Vous n'avez pas pu vous authentifier", "error")
     }
   
 })
