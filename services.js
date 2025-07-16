@@ -1,3 +1,14 @@
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+const requestOptionsGet = {
+                            method: "GET",
+                            redirect: "follow"
+                          };
+
+
+const url_api = "https://script.google.com/macros/s/AKfycbyHmaTcBCa-6ptEQt9WaYj2_umPPBk10DYRoe-95BUAz-NkEodZy2PIZ6u9kSM6Lj8n7w/exec"
+
 
 function showToast(message, type = 'info', duration = 3000) {
   const toast = document.getElementById('toast');
