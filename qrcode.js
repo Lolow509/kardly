@@ -38,14 +38,16 @@ function startScan(){
 // Submission handler (à lier avec API plus tard)
     document.getElementById('addCardForm').addEventListener('submit', function (e) {
       e.preventDefault();
-      const data = new FormData(e.target);
-      const nom = data.get('nom');
-      const typeCode = data.get('typeCode');
+      let data = new FormData(e.target);
+      let nom = data.get('nom');
+      let typeCode = data.get('typeCode');
       let typeCard = data.get('typeCard')
-      const ids = data.get('ids').split(',').map(s => s.trim());
+      let ids = data.get('ids').split(',').map(s => s.trim()).filter(s => s !== "");
 
       console.log({ nom, typeCode, typeCard, ids }); // à remplacer par l'appel à Google Apps Script
 
       closeModal();
+
+      add_carte(nom, typeCode, typeCard, ids)
       // Ajout visuel dynamique à venir
     });
