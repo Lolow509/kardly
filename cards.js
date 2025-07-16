@@ -1,9 +1,21 @@
+const requestOptionsGet = {
+                                  method: "GET",
+                                  redirect: "follow"
+                                };
+
+
+const url_api = "https://script.google.com/macros/s/AKfycbyHmaTcBCa-6ptEQt9WaYj2_umPPBk10DYRoe-95BUAz-NkEodZy2PIZ6u9kSM6Lj8n7w/exec"
 
 
 addEventListener("DOMContentLoaded", (event) => {
-      const infos = JSON.parse(localStorage.getItem("infos"))
+      var infos = JSON.parse(localStorage.getItem("infos"))
       
-      const cartes = JSON.parse(infos.cartes);
+      var cartes = JSON.parse(infos.cartes);
+
+
+      if(infos == null){
+            window.location = "./"
+      } 
 
       // Ajout des cartes à l'interface
       const container = document.getElementById('cardContainer');
@@ -12,6 +24,11 @@ addEventListener("DOMContentLoaded", (event) => {
       });
 })
 
+
+function deconnected(){
+      localStorage.removeItem("infos");
+      window.location = "./"
+}
 
 
 
@@ -121,6 +138,47 @@ function createCard(carte, index) {
 
   return card;
 }
+
+
+
+
+function add_carte(nom, typeCode, typeCard, ids){
+      uid = infos.id
+
+
+      //id, cartes, action = update_cartes
+
+      cartes.push(ids)
+
+      carte_string = JSON.strigify(cartes)
+
+
+      data = JSON.strigify({
+            "action" : "update_cartes",
+            "id" : uid,
+            "cartes" : carte_string
+      })
+
+
+      data_encode = encodeURIComponent(data)
+
+
+  getUrl = `${url_api}?info=${data_encode}`
+
+  fetch(getUrl, requestOptionsGet)
+  .then((response) => response.json())
+  .then((get_data) => {
+    console.log(get_data)
+  })
+            
+}
+
+
+
+
+
+
+
 
 
 
