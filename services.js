@@ -58,3 +58,27 @@ function showToast(message, type = 'info', duration = 3000) {
     setTimeout(() => toast.classList.add('hidden'), 300);
   }, duration);
 }
+
+
+
+
+
+
+
+
+
+function genererCode(longueur) {
+  const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let code = '';
+
+  for (let i = 0; i < longueur; i++) {
+    const index = Math.floor(Math.random() * caracteres.length);
+    code += caracteres.charAt(index);
+  }
+
+  return code;
+}
+
+
+
+
