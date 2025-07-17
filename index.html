@@ -7,8 +7,23 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-6 text-center" onclick="dash()">Connexion à Kardly</h2>
+  
+  <header class="bg-white shadow-md p-4 flex justify-between items-center">
+    <nav class="flex space-x-4">
+      <img src="https://cdn-icons-png.flaticon.com/512/16994/16994123.png " width="25" height="25">
+      <h1 class="text-xl font-bold text-gray-800">Kardly</h1>
+    </nav>
+  </header>
+  
+
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-md" id="connexion_box">
+    <h2 class="text-2xl font-bold mb-6 text-center" >Connexion à Kardly</h2>
+
+    <div>
+      <img src="https://cdn-icons-png.flaticon.com/512/16994/16994123.png " width="150" height="150">
+    </div>
+
+    
     <form id="loginForm" class="space-y-4">
       <input type="email" name="email" placeholder="Email" class="w-full p-3 border rounded" required>
       <input type="password" name="mdp" placeholder="Mot de passe" class="w-full p-3 border rounded" required>
@@ -17,10 +32,70 @@
       </button>
     </form>
     <div class="text-sm mt-4 text-center">
-      <a href="forgot.html" class="text-blue-500 hover:underline">Mot de passe oublié ?</a><br>
-      <a href="register.html" class="text-gray-500 hover:underline">Créer un compte</a>
+      <a onclick="document.getElementById('forgot_box').classList.remove('hidden'); document.getElementById('connexion_box').classList.add('hidden')" class="text-blue-500 hover:underline">Mot de passe oublié ?</a><br>
+      <a onclick="document.getElementById('inscription_box').classList.remove('hidden'); document.getElementById('connexion_box').classList.add('hidden')" class="text-gray-500 hover:underline">Créer un compte</a>
     </div>
   </div>
+
+  
+
+
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md hidden" id="inscription_box">
+      <h2 class="text-2xl font-bold mb-6 text-center" onclick="dash()">Inscription à Kardly</h2>
+
+         <div>
+          <img src="https://cdn-icons-png.flaticon.com/512/16994/16994123.png " width="150" height="150">
+        </div>
+      
+      <form id="signUpForm" class="space-y-4">
+        <input type="text" name="nom" placeholder="Nom" class="w-full p-3 border rounded" required>
+        <input type="email" name="email" placeholder="Email" class="w-full p-3 border rounded" required>
+        <input type="password" name="mdp" placeholder="Mot de passe" class="w-full p-3 border rounded" required>
+        <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition">
+          S'inscrire
+        </button>
+      </form>
+      <div class="text-sm mt-4 text-center">
+        <a onclick="document.getElementById('inscription_box').classList.add('hidden'); document.getElementById('connexion_box').classList.remove('hidden')" class="text-gray-500 hover:underline">Créer un compte</a>
+      </div>
+    </div>
+
+
+
+<!-- Mot de passe oublié -->
+   <div class="bg-white p-8 rounded shadow-md w-full max-w-md hidden" id="forgot_box">
+      <h2 class="text-2xl font-bold text-center" >Mot de passe oublié</h2>
+       <p class="mb-6 text-center" >Tout au long du processus ne fermez pas cette page</p>
+
+
+      <div>
+        <label for="email_forgot" class="block text-sm font-medium text-gray-700" style="margin: 15px 0px; font-weight: bold;">Email</label>
+        <input type="email" id="email_forgot" placeholder="Email" class="w-full p-3 border rounded" required>
+        <button onclick="send_forgot()" class="w-full bg-gray-600 text-white p-3 rounded hover:bg-gray-700 transition" style="argin-bottom: 50px; margin-top: 20px;">
+          Envoyer le code
+        </button>
+      </div>
+
+
+     <div id="code_box" class="hidden">
+      <label for="code_forgot" class="block text-sm font-medium text-gray-700" style="margin: 15px 0px; font-weight: bold;">Code</label>
+       <label for="code_forgot" class="block text-sm font-medium text-gray-700" style="margin: 15px 0px; font-weight: bold;">Récupérer le code envoyer par email</label>
+      <input type="text" onchange="code_forgot(this)" id="code_forgot" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+    </div>
+
+      <div id="reset_box" class="hidden">
+        <label for="reset_forgot" class="block text-sm font-medium text-gray-700" style="margin: 15px 0px; font-weight: bold;">Réinitialisation</label>
+        <input type="password" onchange="reset_forgot(this)" id="reset_forgot" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+
+      <div class="text-sm mt-4 text-center" style="margin-top: 50px;">
+        <button onclick="cancel_forgot()" class="w-full bg-red-600 text-white p-3 rounded hover:bg-red-700 transition">Annuler</button>
+      </div>
+    </div>
+
+
+  
 
 
   <!-- Toast container -->
@@ -44,12 +119,26 @@
 
   <script src="services.js" type="text/javascript"> </script>
   <script>
-    // Regex basique pour validation email
+    
+    addEventListener("DOMContentLoaded", (event) => {
+      infos = JSON.parse(localStorage.getItem("infos"))
+
+      document.getElementById('modalWait').classList.remove('hidden')
+       if(infos != null){
+            window.location = "./dashboard.html"
+         
+          } else { 
+             document.getElementById('modalWait').classList.add ('hidden')
+           
+           }
+
+      
+    })
      
 
     
-
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
+//Connexion
+document.getElementById('loginForm').addEventListener('submit', function (e) {
       document.getElementById('modalWait').classList.remove('hidden')
       
       e.preventDefault();
@@ -60,15 +149,16 @@
 
       if ( emailRegex.test(email) ) {
         call_login(email, mdp)
+        
       } else {
         showToast("Votre adresse email n'est pas valide", "warning")
       }
       
       
-    })
+})
 
 
-    function call_login(email, mdp){
+function call_login(email, mdp){
        data = JSON.stringify({
                                 email,
                                 mdp,
@@ -85,32 +175,186 @@
   .then((response) => response.json())
   .then((get_data) => {
     //console.log(get_data)
+        
+        if(get_data.success == true){
     
-    if(get_data.success == true){
-
-      if(get_data.message == []){
-        document.getElementById('modalWait').classList.add('hidden')
-        showToast("Vous n'avez pas pu vous authentifier", "error")
-      } else{
+          if(get_data.message == []){
+            document.getElementById('modalWait').classList.add('hidden')
+            showToast("Vous n'avez pas pu vous authentifier", "error")
+          } else{
+        
+            //cartes = JSON.parse(get_data.message[0].cartes)
+            infos = get_data.message[0]
     
-        //cartes = JSON.parse(get_data.message[0].cartes)
-        infos = get_data.message[0]
-
-      localStorage.setItem("infos", JSON.stringify(infos) );
-      //localStorage.getItem("infos");
-
-      window.location = "./dashboard.html"
-      console.log(localStorage.getItem("infos") )
+          localStorage.setItem("infos", JSON.stringify(infos) );
+          //localStorage.getItem("infos");
+    
+          window.location = "./dashboard.html"
+          console.log(localStorage.getItem("infos") )
+          
+          }
+          
+        } else {
+          document.getElementById('modalWait').classList.add('hidden')
+          showToast("Vous n'avez pas pu vous authentifier", "error")
+        }
       
+    })
+      
+}
+
+
+
+
+//Inscription
+document.getElementById('signUpForm').addEventListener('submit', function (e) {
+      document.getElementById('modalWait').classList.remove('hidden')
+      
+      e.preventDefault();
+      var data = new FormData(e.target);
+      var nom = data.get('nom');
+      var email = data.get('email');
+      var mdp = data.get('mdp');
+      
+
+
+  
+
+      if ( emailRegex.test(email) ) {
+
+            if(mdp.length > 8){
+                mdp = window.btoa(mdp)
+
+              if(nom.trim().length > 2){
+                call_signUp(nom, email, mdp)  
+              }
+
+              
+              
+            } else {
+              showToast("Mot de passe trop court", "warning")
+            }
+
+        
+        
+      } else {
+        showToast("Votre adresse email n'est pas valide", "warning")
       }
       
-    } else {
-      document.getElementById('modalWait').classList.add('hidden')
-      showToast("Vous n'avez pas pu vous authentifier", "error")
-    }
-  
-})
       
-    }
+})
+
+
+
+
+function call_signUp(nom, email, mdp)){
+       data = JSON.stringify({
+                                email,
+                                mdp,
+                                nom,
+                                action : "login_user"
+                              })
+
+
+  data_encode = encodeURIComponent(data)
+
+
+  getUrl = `${url_api}?info=${data_encode}`
+
+  fetch(getUrl, requestOptionsGet)
+  .then((response) => response.json())
+  .then((get_data) => {
+    console.log(get_data)
+
+    /*
+        if(get_data.success == true){
+    
+          if(get_data.message == []){
+            document.getElementById('modalWait').classList.add('hidden')
+            showToast("Vous n'avez pas pu vous authentifier", "error")
+          } else{
+        
+            //cartes = JSON.parse(get_data.message[0].cartes)
+            infos = get_data.message[0]
+    
+          localStorage.setItem("infos", JSON.stringify(infos) );
+          //localStorage.getItem("infos");
+    
+          window.location = "./dashboard.html"
+          console.log(localStorage.getItem("infos") )
+          
+          }
+          
+        } else {
+          document.getElementById('modalWait').classList.add('hidden')
+          showToast(get_data.message, "error")
+        }
+
+    */
+      
+    })
+      
+}
+
+
+    function send_forgot(){
+      email = document.getElementById('email_forgot').value
+      code = genererCode(8)
+
+      data = JSON.stringify({
+                                email,
+                                action : "send_email_forgot",
+                                code
+                              })
+
+
+  data_encode = encodeURIComponent(data)
+
+
+  getUrl = `${url_api}?info=${data_encode}`
+
+  fetch(getUrl, requestOptionsGet)
+  .then((response) => response.json())
+  .then((get_data) => {
+    console.log(get_data)
+    
+        if(get_data.success == true){
+          localStorage.setItem("code_forgot", code );
+          document.getElementById('code_forgot').classList.remove('hidden')
+          document.getElementById('email_forgot').disabled = true
+          
+        }
+
+    
+    })
+
+      
+}
+
+
+
+
+function code_forgot(this){
+
+  code_init = thie.value
+
+      if(code_init == localStorage.getItem("code_forgot"){
+        document.getElementById('code_forgot').disabled = true
+        document.getElementById('reset_forgot').classList.remove('hidden')
+        
+      }
+      
+}
+
+
+
+function reset_forgot(this){
+  
+}
+
+
+
+    
+    
   </script>
 </html>
