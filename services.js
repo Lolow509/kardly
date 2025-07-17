@@ -68,7 +68,7 @@ function showToast(message, type = 'info', duration = 3000) {
 
 
 function genererCode(longueur) {
-  const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const caracteres = 'ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
   let code = '';
 
   for (let i = 0; i < longueur; i++) {
