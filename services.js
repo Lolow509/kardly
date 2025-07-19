@@ -82,3 +82,19 @@ function genererCode(longueur) {
 
 
 
+
+ function togglePassword() {
+      const input = document.getElementById("password");
+      const icon = document.getElementById("eye-icon");
+
+      if (input.type === "password") {
+        input.type = "text";
+        icon.src = "https://cdn-icons-png.flaticon.com/512/12603/12603998.png";  // oeil fermé
+      } else {
+        input.type = "password";
+        icon.src = "https://cdn-icons-png.flaticon.com/512/2115/2115194.png"; // oeil ouvert
+      }
+}
+
+
+
