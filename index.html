@@ -6,7 +6,7 @@
   <title>Connexion – Kardly</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="bg-gray-100 items-center justify-center min-h-screen">
   
   <header class="bg-white shadow-md p-4 flex justify-between items-center">
     <nav class="flex space-x-4">
@@ -16,6 +16,7 @@
   </header>
   
 
+  <main class="p-4 space-y-6 max-w-xl mx-auto" style=" width: 400px;">
   <div class="bg-white p-8 rounded shadow-md w-full max-w-md" id="connexion_box">
     <h2 class="text-2xl font-bold mb-6 text-center" >Connexion à Kardly</h2>
 
@@ -56,7 +57,7 @@
         </button>
       </form>
       <div class="text-sm mt-4 text-center">
-        <a onclick="document.getElementById('inscription_box').classList.add('hidden'); document.getElementById('connexion_box').classList.remove('hidden')" class="text-gray-500 hover:underline">Créer un compte</a>
+        <a onclick="document.getElementById('inscription_box').classList.add('hidden'); document.getElementById('connexion_box').classList.remove('hidden')" class="text-gray-500 hover:underline">J'ai déjà un compte</a>
       </div>
     </div>
 
@@ -85,8 +86,13 @@
 
       <div id="reset_box" class="hidden">
         <label for="reset_forgot" class="block text-sm font-medium text-gray-700" style="margin: 15px 0px; font-weight: bold;">Réinitialisation</label>
-        <input type="password" onchange="reset_forgot(this)" id="reset_forgot" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-      </div>
+
+          <div style="gap:  20px; display: grid; grid-template-columns: 2fr 1fr;">
+            <input type="password" id="reset_forgot" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required="">
+            <button onclick="reset_forgot( document.getElementById('reset_forgot') )" class="w-full bg-blue-600 text-white p-3 rounded hover:bg-red-700 transition">valide</button>
+          </div>
+        
+     </div>
 
 
       <div class="text-sm mt-4 text-center" style="margin-top: 50px;">
@@ -94,6 +100,7 @@
       </div>
     </div>
 
+  </main>
 
   
 
@@ -303,7 +310,7 @@ function call_signUp(nom, email, mdp)){
 
       data = JSON.stringify({
                                 email,
-                                action : "send_email_forgot",
+                                action : "reinit_mdp",
                                 code
                               })
 
@@ -320,6 +327,7 @@ function call_signUp(nom, email, mdp)){
     
         if(get_data.success == true){
           localStorage.setItem("code_forgot", code );
+          localStorage.setItem("uid_forgot", get_data.message.id );
           document.getElementById('code_forgot').classList.remove('hidden')
           document.getElementById('email_forgot').disabled = true
           
@@ -336,7 +344,7 @@ function call_signUp(nom, email, mdp)){
 
 function code_forgot(this){
 
-  code_init = thie.value
+  code_init = this.value
 
       if(code_init == localStorage.getItem("code_forgot"){
         document.getElementById('code_forgot').disabled = true
@@ -349,10 +357,62 @@ function code_forgot(this){
 
 
 function reset_forgot(this){
+
+  new_mdp = this.value
+  uid = localStorage.getItem("uid_forgot");
+
+      if(new_mdp.length > 8){
+
+           data = JSON.stringify({
+                                id : uid,
+                                action : "update_user",
+                                mdp: new_mdp
+                              })
+
+            
+              data_encode = encodeURIComponent(data)
+            
+            
+              getUrl = `${url_api}?info=${data_encode}`
+            
+              fetch(getUrl, requestOptionsGet)
+              .then((response) => response.json())
+              .then((get_data) => {
+                console.log(get_data)
+                
+                    if(get_data.success == true){
+                      cancel_forgot()
+                      showToast("Votre mot de passe a été modifié avec succès", "success")
+                      
+                    }
+            
+                
+                })
+
+
+
+        
+        
+      }
   
 }
 
 
+
+    function cancel_forgot(){
+      localStorage.removeItem("code_forgot");
+      localStorage.removeItem("uid_forgot");
+
+      document.getElementById('email_forgot').disabled = false
+      document.getElementById('code_forgot').classList.add('hidden')
+
+      document.getElementById('code_forgot').disabled = false
+      document.getElementById('reset_forgot').classList.add('hidden')
+      
+      
+      document.getElementById('forgot_box').classList.add('hidden');
+      document.getElementById('connexion_box').classList.remove('hidden')"
+    }
 
     
     
