@@ -84,8 +84,8 @@ function genererCode(longueur) {
 
 
  function togglePassword(password) {
-      const input = document.getElementById(password);
-      const icon = document.getElementById(`eye-icon_${password}`);
+      var input = document.getElementById(password);
+      var icon = document.getElementById(`eye-icon_${password}`);
 
       if (input.type === "password") {
         input.type = "text";
