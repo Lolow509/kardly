@@ -335,8 +335,9 @@ function send_forgot(){
 function code_forgot(e){
 
   code_init = e.value
+  get_code = localStorage.getItem("code_forgot")
 
-      if(code_init == localStorage.getItem("code_forgot"){
+      if(code_init == get_code ){
         document.getElementById('code_forgot').disabled = true
         document.getElementById('reset_forgot').classList.remove('hidden')
         
