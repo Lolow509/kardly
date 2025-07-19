@@ -280,41 +280,58 @@ function add_carte(nom, typeCode, typeCard, ids){
       carte_string = JSON.stringify(cartes)
          
 
-      data = JSON.stringify({
+      data_post = JSON.stringify({
             "action" : "update_cartes",
             "id" : uid,
             "cartes" : carte_string
       })
 
 
-      data_encode = encodeURIComponent(data)
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+var urlencoded = new URLSearchParams();
+urlencoded.append("info", data_post);
+
+var requestOptionsPost = {
+  method: "POST",
+  headers: myHeaders,
+  body: urlencoded,
+  redirect: "follow"
+}
 
 
-  getUrl = `${url_api}?info=${data_encode}`
-
-  fetch(getUrl, requestOptionsGet)
-  .then((response) => response.json())
-  .then((get_data) => {
-    console.log(get_data)
-
-    if(get_data.success == true){
-      //ajouter à la dashboard
-      index = cartes.length - 1
-      new_div = createCard(cartes[index], index)
-      document.querySelector('#cardContainer').appendChild(new_div)
-
-      //ajouter à localstorage
-      infos.cartes = carte_string
-      localStorage.setItem("infos", JSON.stringify(infos) );
-
-      document.getElementById('modalWait').classList.add('hidden')
-      closeModal();
+       fetch(url_api, requestOptionsPost)
+        .then((response) => response.json())
+        .then((get_data) => {
+          console.log(get_data)
+                                
+                      if(get_data.success == true){
+                        //ajouter à la dashboard
+                        index = cartes.length - 1
+                        new_div = createCard(cartes[index], index)
+                        document.querySelector('#cardContainer').appendChild(new_div)
+                  
+                        //ajouter à localstorage
+                        infos.cartes = carte_string
+                        localStorage.setItem("infos", JSON.stringify(infos) );
+                  
+                        document.getElementById('modalWait').classList.add('hidden')
+                        closeModal();
+                        
+                      }
+                        
+              
       
-    }
+        })
 
-    
-  })
-            
+
+
+
+
+
+
+      
 }
 
 
