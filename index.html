@@ -294,7 +294,7 @@ function call_signUp(nom, email, mdp) {
 }
 
 
-    function send_forgot(){
+function send_forgot(){
       email = document.getElementById('email_forgot').value
       code = genererCode(8)
 
@@ -332,9 +332,9 @@ function call_signUp(nom, email, mdp) {
 
 
 
-function code_forgot(this){
+function code_forgot(e){
 
-  code_init = this.value
+  code_init = e.value
 
       if(code_init == localStorage.getItem("code_forgot"){
         document.getElementById('code_forgot').disabled = true
@@ -346,9 +346,9 @@ function code_forgot(this){
 
 
 
-function reset_forgot(this){
+function reset_forgot(e){
 
-  new_mdp = this.value
+  new_mdp = e.value
   uid = localStorage.getItem("uid_forgot");
 
       if(new_mdp.length > 8){
@@ -378,9 +378,6 @@ function reset_forgot(this){
             
                 
                 })
-
-
-
         
         
       }
@@ -388,8 +385,9 @@ function reset_forgot(this){
 }
 
 
+    
 
-    function cancel_forgot(){
+function cancel_forgot(){
       localStorage.removeItem("code_forgot");
       localStorage.removeItem("uid_forgot");
 
