@@ -75,13 +75,13 @@ function openSettings() {
 
 
 function get_parametre(){
-      document.querySelector('#user_id').value = info.id
-      document.querySelector('#user_nom').value = info.nom
-      document.querySelector('#user_pseudo').value = info.pseudo
-      document.querySelector('#user_numero').value = info.numero
-      document.querySelector('#user_sexe').value = info.sexe
-      document.querySelector('#user_age').value = info.age
-      document.querySelector('#user_email').value = info.email
+      document.querySelector('#user_id').value = infos.id
+      document.querySelector('#user_nom').value = infos.nom
+      document.querySelector('#user_pseudo').value = infos.pseudo
+      document.querySelector('#user_numero').value = infos.numero
+      document.querySelector('#user_sexe').value = infos.sexe
+      document.querySelector('#user_age').value = infos.age
+      document.querySelector('#user_email').value = infos.email
 
       document.getElementById('modalWait').classList.add('hidden');
       
