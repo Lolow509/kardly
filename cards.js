@@ -106,6 +106,7 @@ document.getElementById('settingsForm').addEventListener('submit', function (e) 
 
             if (!isValid) {
               showToast("Veuillez remplir tous les champs obligatoires.", "warning");
+              document.getElementById('modalWait').classList.add('hidden')
               
             } else {
                   update_info(user_pseudo, user_numero, user_sexe, user_age)
