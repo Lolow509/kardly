@@ -187,7 +187,7 @@ function createCard(carte, index) {
       <!-- Recto -->
       <div style="padding: 70px 0; text-align: center;" class="card-face grid items-center justify-center p-6">
         <b>${carte.nom}</b>
-        <img src="https://lh3.googleusercontent.com/d/${carte.logo}" alt="${carte.nom}" class="h-20">
+        <img src="${carte.logo}" alt="${carte.nom}" class="h-20">
       </div>
 
       <!-- Verso -->
