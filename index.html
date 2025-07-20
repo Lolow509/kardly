@@ -57,9 +57,17 @@
         </div>
       
       <form id="signUpForm" class="space-y-4">
-        <input type="text" name="nom" placeholder="Nom" class="w-full p-3 border rounded" required>
-        <input type="email" name="email" placeholder="Email" class="w-full p-3 border rounded" required>
-        <input type="password" name="mdp" placeholder="Mot de passe" class="w-full p-3 border rounded" required>
+        <input type="text" name="nom" placeholder="Nom" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        <input type="email" name="email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+
+        <div class="relative">
+        <input type="password" id="mdpIns" name="mdp" placeholder="Mot de passe" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+         <button type="button" onclick="togglePassword('mdpIns')" class="absolute inset-y-0 right-2 flex items-center text-gray-600">
+          <span> <img id="eye-icon_mdpIns" width="20" src="https://cdn-icons-png.flaticon.com/512/2115/2115194.png" alt=""> </span> 
+        </button>
+        </div>
+
+        
         <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition">
           S'inscrire
         </button>
@@ -254,12 +262,14 @@ document.getElementById('signUpForm').addEventListener('submit', function (e) {
 
 //inscription
 function call_signUp(nom, email, mdp) {
-  id = Date.now()
+  id = Date.now();
+  cartes = []
        data = JSON.stringify({
                                 id,
                                 email,
                                 mdp,
                                 nom,
+                                cartes,
                                 action : "create_user"
                               })
 
@@ -281,7 +291,8 @@ function call_signUp(nom, email, mdp) {
                                 email,
                                 mdp,
                                 nom,
-                                id
+                                id,
+                                cartes
                               }
     
           localStorage.setItem("infos", JSON.stringify(infos) );
@@ -327,6 +338,7 @@ function send_forgot(){
           localStorage.setItem("code_forgot", code );
           localStorage.setItem("uid_forgot", get_data.message.id );
           document.getElementById('code_forgot').classList.remove('hidden')
+          document.getElementById('code_box').classList.remove('hidden')
           document.getElementById('email_forgot').disabled = true
           
         }
@@ -348,6 +360,7 @@ function code_forgot(e){
       if(code_init == get_code ){
         document.getElementById('code_forgot').disabled = true
         document.getElementById('reset_forgot').classList.remove('hidden')
+        document.querySelector('#reset_box').classList.remove('hidden')
         
       }
       
@@ -356,8 +369,10 @@ function code_forgot(e){
 
 
 function reset_forgot(e){
+  document.getElementById('modalWait').classList.remove('hidden')
+  
 
-  new_mdp = e.value
+  new_mdp = window.btoa(e.value)
   uid = localStorage.getItem("uid_forgot");
 
       if(new_mdp.length > 8){
@@ -397,6 +412,8 @@ function reset_forgot(e){
     
 
 function cancel_forgot(){
+      document.getElementById('modalWait').classList.add('hidden')
+  
       localStorage.removeItem("code_forgot");
       localStorage.removeItem("uid_forgot");
 
