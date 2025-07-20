@@ -187,7 +187,7 @@ function createCard(carte, index) {
       <!-- Recto -->
       <div style="padding: 70px 0; text-align: center;" class="card-face grid items-center justify-center p-6">
         <b>${carte.nom}</b>
-        <img src="${carte.logo}" alt="${carte.nom}" class="h-20">
+        <img style="margin:auto" src="${carte.logo}" alt="${carte.nom}" class="h-20">
       </div>
 
       <!-- Verso -->
@@ -271,7 +271,7 @@ function add_carte(nom, typeCode, typeCard, ids){
   document.getElementById('modalWait').classList.remove('hidden')
       uid = infos.id
 
-    new_carte = { nom, ids, typeCode, "type" : typeCard}
+    new_carte = { nom, ids, typeCode, "logo" : typeCard}
 
 
       //id, cartes, action = update_cartes
